@@ -2,6 +2,8 @@
 
 ## Polling
 
+![button_polling][button_polling.png]
+
 ```
                     ┌────────┐          ┌──────┐          ┌──────────────┐          
                     │MainLoop│          │Button│          │OtherComponent│          

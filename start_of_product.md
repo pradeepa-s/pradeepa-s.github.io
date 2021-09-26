@@ -23,6 +23,6 @@
 - No need to think too much about quality
 
 
-## Product requirements
+## Specifications
 
 ![Requirement Hierarchy](./images/product-req.drawio.png)

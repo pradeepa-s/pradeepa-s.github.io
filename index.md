@@ -1,6 +1,13 @@
 # Firmware development
 
+[Requirements](start_of_product.md)
+
+
+# Firmware development
+
 # A button driver
+
+Looking at different ways to implement a simple button driver.
 
 ## Polling - All in main loop
 
@@ -24,11 +31,11 @@ int main()
 }
 ```
 
-Pros:
+*Pros*
 
 - Simple implementation
 
-Cons:
+*Cons*
 
 - Difficult to unit test
 - Cannot re-use code
@@ -65,12 +72,12 @@ int is_button_pressed()
     return 0;
 }
 ```
-Pros:
+*Pros*
 
 - Simple implementation
 - Better separation of concerns
 
-Cons:
+*Cons*
 
 - Difficult to unit test
 - Difficult to re-use code
@@ -121,7 +128,7 @@ int is_button_pressed()
     return 0;
 }
 ```
-Pros:
+*Pros*
 
 - Simple implementation
 - Better separation of concerns
@@ -129,7 +136,7 @@ Pros:
 - Easy to re-use
 - We will not miss button presses
 
-Cons:
+*Cons*
 
 - It could take some time to process button press
 - More lines of code
@@ -140,6 +147,8 @@ Cons:
 ### Marketing requirement
 
 The temperature values can be read using the TemperatureMate software
+
+
 
 ### System requirement
 

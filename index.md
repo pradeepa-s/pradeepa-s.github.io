@@ -1,4 +1,42 @@
-## Welcome to GitHub Pages
+## Implementing a button driver
+
+```c
+int is_button_pressed();
+void do_something();
+
+int main()
+{
+    // Initialization code
+
+    while (1)
+    {
+        if (is_button_pressed())
+        {
+            do_something();
+        }
+    }
+}
+
+int is_button_pressed()
+{
+    if (HAL_GPIO_Read(PIN1, PORTA))
+    {
+        return 1;
+    }
+    return 0;
+}
+
+void do_something()
+{
+    // Activate breaks
+    // Launch the missile
+    // Start watering plants
+}
+```
+
+
+
+
 
 You can use the [editor on GitHub](https://github.com/pradeepa-s/pradeepa-s.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
 

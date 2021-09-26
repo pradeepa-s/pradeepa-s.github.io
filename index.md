@@ -1,4 +1,4 @@
-# Firmware development
+# Embedded product design
 
 1. [Requirements](start_of_product.md)
 1. [Component selection](component_selection.md)

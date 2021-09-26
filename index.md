@@ -1,4 +1,25 @@
-## Implementing a button driver
+# A button driver
+
+## Polling
+
+```
+                    ┌────────┐          ┌──────┐          ┌──────────────┐          
+                    │MainLoop│          │Button│          │OtherComponent│          
+                    └───┬────┘          └──┬───┘          └──────┬───────┘          
+                        │    IsPressed()   │                     │                  
+                        │ ─────────────────>                     │                  
+                        │                  │                     │                  
+                        │                  │                     │                  
+          ╔══════╤══════╪══════════════════╪═════════════════════╪═════════════════╗
+          ║ ALT  │  If Pressed             │                     │                 ║
+          ╟──────┘      │                  │                     │                 ║
+          ║             │              DoSomething()             │                 ║
+          ║             │ ───────────────────────────────────────>                 ║
+          ╚═════════════╪══════════════════╪═════════════════════╪═════════════════╝
+                    ┌───┴────┐          ┌──┴───┐          ┌──────┴───────┐          
+                    │MainLoop│          │Button│          │OtherComponent│          
+                    └────────┘          └──────┘          └──────────────┘          
+```
 
 ```c
 int is_button_pressed();
@@ -34,7 +55,49 @@ void do_something()
 }
 ```
 
+- Button sampling time depends on the amount of logic inside the super loop
+- We can miss button presses.
 
+
+# Read temperature using I2C
+
+## Read temperature using I2C
+
+### Marketing requirement
+
+The temperature values can be read using the TemperatureMate software
+
+### System requirement
+
+The TemperatureMate software and TemperatureLogger shall support DataRead command
+
+DataRead command:
+
+Command: DataRead\n
+Response: Last 10 temperature values against UTC time.
+
+```
+<1632625915>:<2345>
+...
+...
+<1632635915>:<2415>
+
+Time: UNIX epoch time
+Temperature: Temperature value * 100
+```
+
+### Sub-system specification TemperatureMate
+
+User shall be able to read temperature through ReadTemperature dialog
+
+### Sub-system specification TemperatureLogger
+
+DataRead command shall be responded with last ten temperature values
+
+## Behaviour Driven Development (BDD)
+
+- Implement a test to cover the required behaviour
+- We can use test frameworks such as [behave](https://behave.readthedocs.io/en/stable/)
 
 
 

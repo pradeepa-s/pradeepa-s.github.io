@@ -7,6 +7,9 @@
 - Never expect to get it right first time
     - There will be multiple iterations
     - There will be guess work
+- Famous component suppliers [Digikey](https://www.digikey.com), [Mouser](https://www.mouser.com), [LCSC](https://www.lcsc.com)
+- Process also depends on the scale of the organization
+
 
 ## Selecting a micro-controller
 
@@ -16,5 +19,15 @@
     1. SPI
     1. RTC
 
+
 ## Selecting an accelerometer
 
+- Let's select an accelerometer for a wearable device
+
+
+## Selecting a temperature sensor
+
+- Let's select a temperature sensor with:
+    - 0.1 C temperature resolution
+    - 1.8 V to 3.3 V power supply range
+    - I2C communication

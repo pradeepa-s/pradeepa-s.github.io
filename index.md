@@ -2,7 +2,7 @@
 
 ## Polling
 
-![button_polling][button_polling.png]
+![Button Polling](https://pradeepa-s.githum.com/images/button_polling.png)
 
 ```
                     ┌────────┐          ┌──────┐          ┌──────────────┐          

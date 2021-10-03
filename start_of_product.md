@@ -25,4 +25,17 @@
 
 ## Specifications
 
+- It's easy to overlook Specifications when designing a product
+- Specifications form a single source of truth to product behaviour
+- Specifications answers the question 'Why?'
+- In certain product types, this can be a regulatory requirement
+
 ![Requirement Hierarchy](./images/product-req.drawio.png)
+
+
+## Specifications for a Temperature Logger
+
+- Looking at a [random temperature logger](https://www.logtag.com.au/product/logtag-usb-utrix-16/) in the market
+- These are marketing and regulatory requirements, which forms the base of a systems requirement
+- Architects of different product disciplines break this down into separate requirement
+- These sub system specifications can be implemented and verified easily

@@ -6,7 +6,7 @@
 - Need to think about component volumes, support, regulatory requirements, cost, etc.
 - Never expect to get it right first time
     - There will be multiple iterations
-    - There will be guess work
+    - There will be guess work (Specially during initial stages)
 - Famous component suppliers [Digikey](https://www.digikey.com), [Mouser](https://www.mouser.com), [LCSC](https://www.lcsc.com)
 - Process also depends on the scale of the organization
 

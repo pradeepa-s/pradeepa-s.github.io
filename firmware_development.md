@@ -1,10 +1,10 @@
 # Firmware development
 
-# A button driver
+# Most common designs
 
-Looking at different ways to implement a simple button driver.
+## Super-loop
 
-## Polling - All in main loop
+- Implement all the logic in one giant loop
 
 ```c
 int main()
@@ -13,170 +13,117 @@ int main()
 
     while (1)
     {
-        if (GPIO_Read(PIN1, PORTA) == SET)
+        if (some condition 1)
         {
-            // Button pressed
-            do_something();
+            do_something_1();
         }
-
-        // do other things
+        else if (some condition 2)
+        {
+            do_something_2();
+        }
     }
-
     return 0;
 }
 ```
 
-*Pros*
-
-- Simple implementation
-
-*Cons*
-
-- Difficult to unit test
-- Cannot re-use code
-- Lacks separation of concerns
-- Button sampling time is not deterministic
-
-
-## Polling - Using an abstraction for button
+- Good for simple firmware projects
+- If one action takes more time, that would prevent other actions from executing
+- Time critical code can be implemented in interrupt context
 
 ```c
-// main.c
+void interrupt_handler_gpio()
+{
+    process_gpio();
+}
+```
+
+## Real Time Operating System
+
+- This uses a sophisticated schedular to execute tasks
+- Tasks can interrupt (pre-empt) other low priority tasks
+- Each task has it's own stack space
+- Used for more complex Embedded systems
+
+```c
+void task1()
+{
+    while (condition 1 occured)
+    {
+        do_something_1();
+        clear_condition_1();
+    }
+}
+
+void task2()
+{
+    while (condition 2 occured)
+    {
+        do_something_2();
+        clear_condition_2();
+    }
+}
 
 int main()
 {
-    // Initialization code
+    // Initialize HAL
 
-    while (1)
-    {
-        if (is_button_pressed())
-        {
-            do_something();
-        }
-    }
-}
+    create_task(task1, ...);
+    create_task(task2, ...);
+    start_kernel();
 
-// button.c
-
-int is_button_pressed()
-{
-    if (GPIO_Read(PIN1, PORTA))
-    {
-        return 1;
-    }
+    while(1);
     return 0;
 }
 ```
-*Pros*
 
-- Simple implementation
-- Better separation of concerns
-
-*Cons*
-
-- Difficult to unit test
-- Difficult to re-use code
-- Button sampling time depends on the amount of logic inside the super loop
-- We can miss button presses.
+- Task can talk with each other using message queues
+- Task synchronization needs to be handled
+- Tasks run based on its priority
+- Schedular can use round robin or any other algorithm to switch between tasks
 
 
-## Interrupt based 
+# Good practices
 
-```c
-// interrupt vector
-void GPIO_Interrupt()
-{
-    button_pressed();
-}
-
-// main.c
-
-int main()
-{
-    // Initialization code
-
-    while (1)
-    {
-        if (is_button_pressed())
-        {
-            do_something();
-        }
-    }
-}
-
-// button.c
-
-bool button_press_processed = 1;
-
-void button_pressed()
-{
-    button_press_processed = 0;
-}
-
-int is_button_pressed()
-{
-    if (button_press_processed == 0)
-    {
-        button_press_processed = 1;
-        return 1;
-    }
-    return 0;
-}
-```
-*Pros*
-
-- Simple implementation
-- Better separation of concerns
-- Easy to unit test
-- Easy to re-use
-- We will not miss button presses
-
-*Cons*
-
-- It could take some time to process button press
-- More lines of code
+- Don't overload main function
+- Always try to separate concerns to different modules (C files, C++ classes, etc.)
+- Use dependency injection to de-couple application logic and hardware
+- Strive for testable designs
 
 
-# Read temperature sensor
+# Behaviour Driven Development (BDD) and Test Driven Development (TDD)
 
-### Marketing requirement
+- Run the test before implementing the code
 
-The temperature values can be read using the TemperatureMate software
+## Implementing an API using behave
 
-
-
-### System requirement
-
-The TemperatureMate software and TemperatureLogger shall support DataRead command
-
-DataRead command:
-
-Command: DataRead\n
-Response: Last 10 temperature values against UTC time.
-
-```
-<1632625915>:<2345>
-...
-...
-<1632635915>:<2415>
-
-Time: UNIX epoch time
-Temperature: Temperature value * 100
-```
-
-### Sub-system specification TemperatureMate
-
-User shall be able to read temperature through ReadTemperature dialog
-
-### Sub-system specification TemperatureLogger
-
-DataRead command shall be responded with last ten temperature values
-
-## Temperature sensor
-
-- [TMP112](https://www.ti.com/product/TMP112)
-
-## Behaviour Driven Development (BDD)
-
-- Implement a test to cover the required behaviour
 - We can use test frameworks such as [behave](https://behave.readthedocs.io/en/stable/)
+- Implement a test to cover the required behaviour
+
+### GetInfo command
+
+Command: GetInfo\n
+Response: <version>
+
+### Reset command
+
+Command: Reset\n
+Response: None, device resets
+
+### GetTemperature command
+
+Command: GetTemp\n
+Response: <temperature>
+
+## Implementing a storage manager using TDD
+
+- Initially write to storage index 0
+- Every write increments the index by 1
+- Erasing would reset the storage index to 0
+- When powered on, shall read and find out where to append data
+
+## Take home messages
+
+- Try your best to implement testable designs, if you can't verify your implementation, we never know when it would break
+- Always think abour core Software Engineering concepts such as SRP, DIP, DRY, etc.
+- Always refactor code and make it more readable
+- Readability trumps efficiency in most of the Embedded Systems
